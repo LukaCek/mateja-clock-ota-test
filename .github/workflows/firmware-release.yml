@@ -58,15 +58,20 @@ jobs:
         run: pio test -e native
 
       - name: Build firmware
-        run: >-
-          pio run -e cyd_photo_test
+        shell: bash
+        run: |
+          set -euo pipefail
+          pio run -e cyd_rollback_test -v 2>&1 | tee rollback-build.log
+          grep -F -- '-DMATEJA_OTA_FORCE_UNHEALTHY' rollback-build.log
+          strings .pio/build/cyd_rollback_test/firmware.bin \
+            | grep -F '[OTA] ROLLBACK TEST IMAGE'
 
       - name: Prepare release assets
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          cp .pio/build/cyd_photo_test/firmware.bin mateja-clock.bin
+          cp .pio/build/cyd_rollback_test/firmware.bin mateja-clock.bin
           python tools/generate_release_manifest.py \
             --version "$VERSION" \
             --firmware mateja-clock.bin \

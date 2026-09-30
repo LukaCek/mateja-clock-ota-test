@@ -1,4 +1,10 @@
-# Mateja Clock
+# Mateja Clock OTA Rollback Test
+
+> [!WARNING]
+> This public repository builds a deliberately unhealthy OTA acceptance image.
+> Its `v1.1.2` Release restarts before first-boot validation so ESP-IDF can
+> prove automatic rollback to the previous healthy image. Do not use it as
+> production firmware.
 
 Romantic bedside alarm clock and offline photo frame for the two-USB ESP32-2432S028 CYD.
 

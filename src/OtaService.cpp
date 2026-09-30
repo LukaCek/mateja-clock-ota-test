@@ -91,6 +91,9 @@ void OtaService::begin(bool sdMounted) {
   if (pendingVerify_) {
     healthStartedMs_ = millis();
     Serial.println("[OTA] first boot pending validation");
+#ifdef MATEJA_OTA_FORCE_UNHEALTHY
+    Serial.println("[OTA] ROLLBACK TEST IMAGE");
+#endif
   }
   Serial.printf("[OTA] version=%s configured=%s slots=%u\n",
                 MATEJA_CLOCK_VERSION, configured_ ? "yes" : "no",
